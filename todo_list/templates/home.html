@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+   {% if messages %}
+   {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true"></span>
+        </button>
+        {{ message }}
+    </div>   
+   {% endfor %}
+   {% endif %}
+
+   {% if all_tasks %}
+   <table class="table table-bordered">
+      {% for task in all_tasks %}
+         
+             <tr>
+                <td>{{ task.title }}</td>  
+                <td>{{ task.description|truncatechars:16 }}</td>
+                <td>{{ task.estimated_time }} horas</td>    
+                <td>{{ task.worked_time }} horas</td>
+                <td><a href="{% url 'edit_worked_time' task_id=task.id %}">Añadir tiempo trabajado</a></td>   
+             </tr>
+         
+         
+      {% endfor %}
+    </table>
+   {% endif %}
+
+{% endblock %}

@@ -1,6 +1,6 @@
 # To Do App v1.0.0
 
-This is a Todo Web Application for managing tasks with an [API Calculator WSDL](http://www.dneonline.com/calculator.asmx) which adds worked time on a specific task and a basic CRUD implementation using [MVC Django framework](https://www.djangoproject.com/) to create, read and update tasks.
+This is a Todo Web Application for managing tasks with an [API Calculator WSDL](http://www.dneonline.com/calculator.asmx) and [Zeep SOAP client](https://python-zeep.readthedocs.io/en/master/) which add worked time on a specific task and a basic CRUD implementation using [MVC Django framework](https://www.djangoproject.com/) to create, read and update tasks.
 
 This README would normally document whatever steps are necessary to get the
 application up and running.

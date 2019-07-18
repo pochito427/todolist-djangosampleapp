@@ -4,11 +4,19 @@ from . forms import TaskForm, AddWorkedTimeForm
 from django.contrib import messages
 from zeep import Client
 # Create your views here.
-def home(request):
+def home(request):   
     if(request.method == "POST"):
         form = TaskForm(request.POST or None)
         if(form.is_valid()):
-            form.save()
+            title = request.POST.get('title')
+            description = request.POST.get('description')
+            estimated_time = int(request.POST.get('estimated_time'))
+            worked_time = float(request.POST.get('worked_time'))
+            client = Client(wsdl='http://www.dneonline.com/calculator.asmx?WSDL')
+            worked_time_integer = int(float(request.POST.get('worked_time')))
+            difference_time = client.service.Subtract(estimated_time, worked_time_integer)
+            task = Task(title=title, description=description, estimated_time=estimated_time, worked_time=worked_time, difference_time=difference_time)
+            task.save()
             all_tasks = Task.objects.all
             messages.success(request, ('La tarea ha sido creada!!!'))
             return render(request, "home.html", {'all_tasks': all_tasks})
@@ -34,9 +42,11 @@ def add_worked_time(request):
             client = Client(wsdl='http://www.dneonline.com/calculator.asmx?WSDL')
             updated_worked_time = client.service.Add(old_worked_time, time_to_add)
             task.worked_time = float(updated_worked_time)
+            updated_difference_time = client.service.Subtract(task.estimated_time, updated_worked_time)
+            task.difference_time = updated_difference_time
             task.save()
             all_tasks = Task.objects.all
-            messages.success(request, ('El tiempo trabajado en la tarea ha sido agregado!!!'))
+            messages.success(request, ('El tiempo trabajado y el tiempo restante en la tarea han sido actualizados!!!'))
             return render(request, "home.html", {'all_tasks': all_tasks}) 
     else:
         all_tasks = Task.objects.all

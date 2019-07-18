@@ -15,19 +15,27 @@
 
    {% if all_tasks %}
    <table class="table table-bordered">
+      <tr>
+            
+                  <th>Título</th>
+                  <th>Descripción</th>
+                  <th>Tiempo estimado</th>
+                  <th>Tiempo trabajado</th>
+                  <th>Tiempo restante *</th>
+            
+      </tr>
       {% for task in all_tasks %}
-         
-             <tr>
-                <td>{{ task.title }}</td>  
-                <td>{{ task.description|truncatechars:16 }}</td>
-                <td>{{ task.estimated_time }} horas</td>    
-                <td>{{ task.worked_time }} horas</td>
-                <td><a href="{% url 'edit_worked_time' task_id=task.id %}">Añadir tiempo trabajado</a></td>   
-             </tr>
-         
-         
+     
+      <tr>
+         <td>{{ task.title }}</td>  
+         <td>{{ task.description|truncatechars:16 }}</td>
+         <td>{{ task.estimated_time }} horas</td>    
+         <td>{{ task.worked_time }} horas</td>
+         <td>{{ task.difference_time }}horas</td>
+         <td><a href="{% url 'edit_worked_time' task_id=task.id %}">Añadir tiempo trabajado</a></td>   
+      </tr>
       {% endfor %}
     </table>
    {% endif %}
-
+   <p>* El tiempo restante es la diferencia entre el tiempo estimado y el tiempo trabajado, si es mayor o igual que cero la tarea es productiva, si no, el tiempo de la tarea se encuentra subestimado.</p>
 {% endblock %}

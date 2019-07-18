@@ -11,7 +11,8 @@
         <div class="col-md-12">
             
     {% if task is not None %}
-
+    <h1>Tarea: {{ task.title }}</h1>
+    <p>Descripción: {{ task.description }}</p>
     <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'add_worked_time' %}">
             {% csrf_token %}
             <input class="form-control mr-sm-2" type="hidden" name="task_id" value="{{ task.id }}" required>
